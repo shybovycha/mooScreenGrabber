@@ -1,6 +1,6 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
-#include "saveScreenShot.h"
+#include "grabberthread.h"
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -13,7 +13,7 @@ MainWidget::MainWidget(QWidget *parent) :
     dp = XOpenDisplay(NULL);
 
     shootTimer = new QTimer();
-    shootTimer->setInterval(10);
+    shootTimer->setInterval(100);
     connect(shootTimer, SIGNAL(timeout()), this, SLOT(shoot()));
 }
 
@@ -26,13 +26,18 @@ void MainWidget::shoot()
         int width = DisplayWidth(dp, i), height = DisplayHeight(dp, i);
     }*/
 
-    int width = DisplayWidth(dp, 0), height = DisplayHeight(dp, 0);
+    int screenWidth = XDisplayWidth(dp, 0), screenHeight = XDisplayHeight(dp, 0);
 
-    Window rootWindow = DefaultRootWindow(dp);
-    XImage *x11image = XGetImage(dp, rootWindow, 0, 0, width, height, AllPlanes, ZPixmap);
+    Window rootWindow = XDefaultRootWindow(dp);
+    XImage *x11image = XGetImage(dp, rootWindow, 0, 0, screenWidth, screenHeight, AllPlanes, ZPixmap);
     XFixesCursorImage *xfixescursor = XFixesGetCursorImage(dp);
 
-    saveScreenShot(dp, x11image, xfixescursor, QString("screen_%1.png").arg(fileIndex++), "PNG");
+    char keystates[32];
+
+    XQueryKeymap(dp, keystates);
+
+    GrabberThread *thread = new GrabberThread(dp, x11image, xfixescursor, keystates, screenWidth, screenHeight, QString("screen_%1.png").arg(fileIndex++), "PNG");
+    thread->start();
 }
 
 MainWidget::~MainWidget()

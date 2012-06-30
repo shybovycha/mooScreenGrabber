@@ -31,7 +31,7 @@ To perform compilation you should have these installed:
 
 h1. Compilation? What? Why?
 
-One dude suggested a great idea (and i found it on "habrahabr":http://habrahabr.ru/): distribute opensource *as-is* and do not provide any binaries. But those chosen ones who donated may be emailed with their own copy of the software binaries, built *especially* for them.
+One dude "suggested":http://lunduke.com/?p=3606 a great idea (and i found it on "habrahabr":http://habrahabr.ru/): distribute opensource *as-is* and do not provide any binaries. But those chosen ones who donated may be emailed with their own copy of the software binaries, built *especially* for them.
 
 And, you know, i think it is the way it should go. Because /me, personally, does not want to make least moves to compile many binaries by my own.
 

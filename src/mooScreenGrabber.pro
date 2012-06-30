@@ -10,12 +10,12 @@ TARGET = mooScreenGrabber
 TEMPLATE = app
 
 SOURCES += main.cpp\
-        mainwidget.cpp
+        mainwidget.cpp \
+    grabberthread.cpp
 
 HEADERS  += mainwidget.h \
-    saveScreenShot.h \
-    getKeyLabelMap.h \
-    common.h
+    common.h \
+    grabberthread.h
 
 FORMS    += mainwidget.ui
 

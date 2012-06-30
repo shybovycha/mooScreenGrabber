@@ -7,6 +7,8 @@
 #include <QPainter>
 #include <QDebug>
 #include <QVarLengthArray>
+#include <QThread>
+#include <QMutex>
 
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
@@ -14,16 +16,5 @@
 
 typedef QList<int> TIntList;
 typedef QMap<QString, TIntList> TKeyMap;
-
-bool isKeyDown(Display *dp, int keysym)
-{
-    char keystates[32];
-
-    XQueryKeymap(dp, keystates);
-
-    int keycode = (int) XKeysymToKeycode(dp, keysym);
-
-    return (bool) (keystates[keycode / 8] & (1 << (keycode % 8)));
-}
 
 #endif // COMMON_H
