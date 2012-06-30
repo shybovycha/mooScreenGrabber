@@ -16,3 +16,33 @@ For now we have:
 h1. Any support needed?
 
 Yes, please. If you do know a way to _create video from a set of images_ or how to _capture video and audio in X11_ or _how to decrease lagging_ or _you do want to test this software_ - let me know, please.
+
+h1. And how should i proceed?
+
+Simply checkout this repository somewhere on your machine, compile the code and use it for your "pleasure".
+
+To perform compilation you should have these installed:
+
+* *Qt 4* to actually compile the software
+* *libx11-dev*
+* *libxfixes-dev* - those two are just dependencies to grab a screenshot
+* *ffmpeg* (to compile a set of images to video)
+* *mmv* to massively rename screenshot images (for now)
+
+h1. Compilation? What? Why?
+
+One dude suggested a great idea (and i found it on "habrahabr":http://habrahabr.ru/): distribute opensource *as-is* and do not provide any binaries. But those chosen ones who donated may be emailed with their own copy of the software binaries, built *especially* for them.
+
+And, you know, i think it is the way it should go. Because /me, personally, does not want to make least moves to compile many binaries by my own.
+
+h1. Okay, i've got the binaries. What's next?
+
+Run the binary, hit the *"start shooting"* button and enjoy. Well, up until your PC frezes =P Then you should kill the software somehow. I did not find a way to prevent that memory leak for now.
+
+Now, when you've finished recording your screen, you've got a lot of /screen_***.png/ files at your working directory. You can convert them to a one video file using *ffmpeg* (or *avconv* - ffmpeg's developers say *ffmpeg is deprecated*):
+
+/$ avconv -r <FRAMERATE> -b <BITRATE> -i "%d.png" -vframes <IMAGE_COUNT> <OUTPUT_FILENAME>/
+
+For example, i used this:
+
+/$ avconv -r 1 -b 1800 -i "%d.png" -vframes 99 video.avi/
