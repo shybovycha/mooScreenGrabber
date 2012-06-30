@@ -39,10 +39,10 @@ h1. Okay, i've got the binaries. What's next?
 
 Run the binary, hit the *"start shooting"* button and enjoy. Well, up until your PC frezes =P Then you should kill the software somehow. I did not find a way to prevent that memory leak for now.
 
-Now, when you've finished recording your screen, you've got a lot of /screen_***.png/ files at your working directory. You can convert them to a one video file using *ffmpeg* (or *avconv* - ffmpeg's developers say *ffmpeg is deprecated*):
+Now, when you've finished recording your screen, you've got a lot of __screen_***.png__ files at your working directory. You can convert them to a one video file using *ffmpeg* (or *avconv* - ffmpeg's developers say *ffmpeg is deprecated*):
 
-/$ avconv -r <FRAMERATE> -b <BITRATE> -i "%d.png" -vframes <IMAGE_COUNT> <OUTPUT_FILENAME>/
+__$ avconv -r <FRAMERATE> -b <BITRATE> -i "%d.png" -vframes <IMAGE_COUNT> <OUTPUT_FILENAME>__
 
 For example, i used this:
 
-/$ avconv -r 1 -b 1800 -i "%d.png" -vframes 99 video.avi/
+__$ avconv -r 1 -b 1800 -i "%d.png" -vframes 99 video.avi__
