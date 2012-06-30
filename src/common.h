@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QImage>
 #include <QPainter>
+#include <QDebug>
 
 #include <X11/Xlib.h>
 #include <X11/keysym.h>

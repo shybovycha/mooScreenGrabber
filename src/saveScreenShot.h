@@ -54,18 +54,23 @@ QImage* getKeyboardShortcutImage(Display *dp, int width, int height)
 
     shortcut = shortcutKeys.join(" + ");
 
-    QImage *img = new QImage(width, height, QImage::Format_ARGB32);
+    QImage *img = new QImage(width, height, QImage::Format_ARGB32_Premultiplied);
 
     QPainter painter(img);
 
     QBrush originalBrush = painter.brush();
 
-    QRadialGradient gradient(50, 50, 50, 50, 50);
+    painter.setCompositionMode(QPainter::CompositionMode_Source);
+
+    painter.fillRect(QRectF(0, 0, width, height), QBrush(QColor(0, 0, 0, 0), Qt::SolidPattern));
+
+    // QRadialGradient gradient(50, 50, 50, 50, 50);
+    QLinearGradient gradient(QPointF(width / 2, 5), QPointF(width / 2, height - 5));
     gradient.setColorAt(0, QColor(110, 110, 110, 255));
     gradient.setColorAt(1, QColor(110, 110, 110, 100));
 
     painter.setBrush(*(new QBrush(gradient))); // *(new QBrush(QColor(110, 110, 110, 255), Qt::SolidPattern)));
-    painter.drawRoundedRect(QRectF(10, 10, width - 20, height - 20), 5, 5);
+    painter.drawRoundedRect(QRectF(10, 10, width - 20, height - 20), 40, 40);
 
     painter.setFont(QFont("Arial", 36, QFont::SansSerif));
 
@@ -81,8 +86,19 @@ QImage* getKeyboardShortcutImage(Display *dp, int width, int height)
 
 void saveScreenShot(Display *dp, XImage *x11image, XFixesCursorImage *xfixescursor, QString filename, QString fileformat)
 {
-    QImage screenshot((const uchar*) x11image->data, x11image->width, x11image->height, QImage::Format_ARGB32);
-    QImage cursor((const uchar*) xfixescursor->pixels, xfixescursor->width, xfixescursor->height, QImage::Format_ARGB32);
+    QImage screenshot((uchar*) x11image->data, x11image->width, x11image->height, QImage::Format_ARGB32_Premultiplied);
+    QImage cursor(xfixescursor->width, xfixescursor->height, QImage::Format_ARGB32_Premultiplied);
+    QImage cursorTmp((uchar*) xfixescursor->pixels, xfixescursor->width, xfixescursor->height, QImage::Format_ARGB32_Premultiplied);
+
+    QPainter cursorPainter(&cursor);
+
+
+    cursorPainter.setCompositionMode(QPainter::CompositionMode_Source);
+
+    cursorPainter.fillRect(QRectF(0, 0, cursor.width(), cursor.height()), QBrush(QColor(0, 0, 0, 0), Qt::SolidPattern));
+    cursorPainter.drawImage(0, 0, cursorTmp);
+
+    cursorPainter.end();
 
     int screenWidth = XDisplayWidth(dp, 0), screenHeight = XDisplayHeight(dp, 0);
     int shortcutWidth = (int) ((float) (screenWidth) * 0.6f), shortcutHeight = 250;
@@ -90,11 +106,29 @@ void saveScreenShot(Display *dp, XImage *x11image, XFixesCursorImage *xfixescurs
 
     QPainter painter(&screenshot);
 
-    painter.drawImage(xfixescursor->x, xfixescursor->y, cursor);
+    QPainter::CompositionMode originalCompositionMode = painter.compositionMode();
+    painter.setCompositionMode(QPainter::CompositionMode_Source);
+
+    painter.drawImage(
+        QRectF(xfixescursor->x - xfixescursor->xhot,
+               xfixescursor->y - xfixescursor->yhot,
+               xfixescursor->width,
+               xfixescursor->height
+        ),
+        cursor,
+        QRectF(0,
+               0,
+               xfixescursor->width,
+               xfixescursor->height
+        ),
+        Qt::DiffuseDither | Qt::DiffuseAlphaDither
+    );
+
+    painter.setCompositionMode(originalCompositionMode);
 
     if (shortcut)
     {
-        painter.drawImage((screenWidth / 2) - (shortcut->width() / 2), (screenHeight / 2) - (shortcut->height() / 2), *shortcut);
+        painter.drawImage((screenWidth / 2) - (shortcut->width() / 2), (screenHeight / 2) - (shortcut->height() / 2), *shortcut, 0, 0, shortcutWidth, shortcutHeight, Qt::DiffuseDither | Qt::DiffuseAlphaDither);
     }
 
     painter.end();
