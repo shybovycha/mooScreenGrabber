@@ -8,10 +8,18 @@ The project has only a few commits now. And most of them are initial. So, do not
 
 For now we have:
 
-* capturing screenshots each N milliseconds (N = 10)
-* saving screenshots as *PNG* images to the CWD(Current Working Directory)
+* capturing screenshots with framerate set 
+* saving screenshots as *PNG*/*BMP*/*JPG*/*TIFF*/whatever images to the CWD(Current Working Directory) or the one set at configuration options
 * capturing a lot of keyboard shortcuts (ones with *Alt*, *Control* and *Shift*; *Alt + Tab* included) and pasting them to the screenshots
-* a few image set examples
+* tray control allowing you to control screencasting silently (without any windows appearing) - simply left-click it!
+* a few video examples
+
+On the other hand, a lot of work is still pending:
+
+* KDE testing (afaik some artifacts related to FireFox window were present on earlier screenshots)
+* **MORE FLEXIBILITY!** We still do need to set how keyboard shortcuts shall look on screens, what keybindings should be reacted and how mouse cursor shall be highlighted
+* Video encoding. User should handle a big bunch of images on his own and that is not right...
+* Memory leaks detection. For some reason application could cause PC freezings for now
 
 h1. Any support needed?
 
