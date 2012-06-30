@@ -87,18 +87,16 @@ QImage* getKeyboardShortcutImage(Display *dp, int width, int height)
 void saveScreenShot(Display *dp, XImage *x11image, XFixesCursorImage *xfixescursor, QString filename, QString fileformat)
 {
     QImage screenshot((uchar*) x11image->data, x11image->width, x11image->height, QImage::Format_ARGB32_Premultiplied);
-    QImage cursor(xfixescursor->width, xfixescursor->height, QImage::Format_ARGB32_Premultiplied);
-    QImage cursorTmp((uchar*) xfixescursor->pixels, xfixescursor->width, xfixescursor->height, QImage::Format_ARGB32_Premultiplied);
 
-    QPainter cursorPainter(&cursor);
+    //Annoyingly, xfixes specifies the data to be 32bit, but places it in an unsigned long *
+    //which can be 64 bit.  So we need to iterate over a 64bit structure to put it in a 32bit
+    //structure. This hack is gratefully taken from KSnapshot.
+    QVarLengthArray<quint32> pixels(xfixescursor->width * xfixescursor->height);
 
+    for (int i = 0; i < xfixescursor->width * xfixescursor->height; ++i)
+        pixels[i] = xfixescursor->pixels[i] & 0xffffffff;
 
-    cursorPainter.setCompositionMode(QPainter::CompositionMode_Source);
-
-    cursorPainter.fillRect(QRectF(0, 0, cursor.width(), cursor.height()), QBrush(QColor(0, 0, 0, 0), Qt::SolidPattern));
-    cursorPainter.drawImage(0, 0, cursorTmp);
-
-    cursorPainter.end();
+    QImage cursor((uchar *) pixels.data(), xfixescursor->width, xfixescursor->height, QImage::Format_ARGB32_Premultiplied);
 
     int screenWidth = XDisplayWidth(dp, 0), screenHeight = XDisplayHeight(dp, 0);
     int shortcutWidth = (int) ((float) (screenWidth) * 0.6f), shortcutHeight = 250;
@@ -106,25 +104,7 @@ void saveScreenShot(Display *dp, XImage *x11image, XFixesCursorImage *xfixescurs
 
     QPainter painter(&screenshot);
 
-    QPainter::CompositionMode originalCompositionMode = painter.compositionMode();
-    painter.setCompositionMode(QPainter::CompositionMode_Source);
-
-    painter.drawImage(
-        QRectF(xfixescursor->x - xfixescursor->xhot,
-               xfixescursor->y - xfixescursor->yhot,
-               xfixescursor->width,
-               xfixescursor->height
-        ),
-        cursor,
-        QRectF(0,
-               0,
-               xfixescursor->width,
-               xfixescursor->height
-        ),
-        Qt::DiffuseDither | Qt::DiffuseAlphaDither
-    );
-
-    painter.setCompositionMode(originalCompositionMode);
+    painter.drawImage(QRectF(xfixescursor->x - xfixescursor->xhot, xfixescursor->y - xfixescursor->yhot, xfixescursor->width, xfixescursor->height), cursor);
 
     if (shortcut)
     {

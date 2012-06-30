@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QPainter>
 #include <QDebug>
+#include <QVarLengthArray>
 
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
