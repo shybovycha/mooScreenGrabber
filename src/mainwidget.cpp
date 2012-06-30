@@ -8,12 +8,17 @@ MainWidget::MainWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    fileIndex = 0;
+    ui->imageFormat->addItem("PNG");
+    ui->imageFormat->addItem("JPG");
+    ui->imageFormat->addItem("JPEG");
+    ui->imageFormat->addItem("BMP");
+    ui->imageFormat->addItem("TIFF");
+
+    frameIndex = 0;
 
     dp = XOpenDisplay(NULL);
 
     shootTimer = new QTimer();
-    shootTimer->setInterval(100);
     connect(shootTimer, SIGNAL(timeout()), this, SLOT(shoot()));
 }
 
@@ -26,6 +31,8 @@ void MainWidget::shoot()
         int width = DisplayWidth(dp, i), height = DisplayHeight(dp, i);
     }*/
 
+    shootTimer->setInterval(1000 / ui->fps->text().toInt());
+
     int screenWidth = XDisplayWidth(dp, 0), screenHeight = XDisplayHeight(dp, 0);
 
     Window rootWindow = XDefaultRootWindow(dp);
@@ -36,7 +43,10 @@ void MainWidget::shoot()
 
     XQueryKeymap(dp, keystates);
 
-    GrabberThread *thread = new GrabberThread(dp, x11image, xfixescursor, keystates, screenWidth, screenHeight, QString("screen_%1.png").arg(fileIndex++), "PNG");
+    GrabberThread *thread = new GrabberThread(dp, x11image, xfixescursor, keystates, screenWidth, screenHeight,
+        ui->outputDir->text() + "/" + QString(ui->fileNamePattern->text() + ".%2").arg(frameIndex++).arg(ui->imageFormat->currentText().toLower()),
+        ui->imageFormat->currentText().toStdString().c_str());
+
     thread->start();
 }
 
@@ -45,17 +55,46 @@ MainWidget::~MainWidget()
     delete ui;
 }
 
-void MainWidget::on_pushButton_clicked()
+void MainWidget::on_chooseOutputDirectoryButton_clicked()
 {
-    fileIndex = 0;
+    QFileDialog dialog;
+    dialog.setFileMode(QFileDialog::DirectoryOnly);
+
+    if (dialog.exec())
+    {
+        ui->outputDir->setText(dialog.directory().absolutePath());
+    }
+
+}
+
+void MainWidget::on_togglingButton_clicked()
+{
+    frameIndex = 0;
+
+    if (ui->fileNamePattern->text().isEmpty())
+    {
+        ui->fileNamePattern->setText("screen_%1");
+    }
+
+    if (ui->imageFormat->currentIndex() < 0)
+    {
+        ui->imageFormat->setCurrentIndex(0);
+    }
+
+    if (ui->outputDir->text().isEmpty())
+    {
+        ui->outputDir->setText(QApplication::applicationDirPath());
+    }
+
+    shootTimer->setInterval(1000 / ui->fps->text().toInt());
 
     if (shootTimer->isActive())
     {
         shootTimer->stop();
-        ui->pushButton->setText(QString("start shooting"));
+        ui->togglingButton->setText(QString("start shooting"));
     } else
     {
         shootTimer->start();
-        ui->pushButton->setText(QString("stop shooting"));
+        ui->togglingButton->setText(QString("stop shooting"));
     }
 }

@@ -6,24 +6,147 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>257</width>
     <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWidget</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="togglingButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>80</y>
+     <x>20</x>
+     <y>260</y>
      <width>131</width>
      <height>27</height>
     </rect>
    </property>
    <property name="text">
     <string>start shooting</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="fileNamePattern">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>50</y>
+     <width>211</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>%1 means frame index</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>30</y>
+     <width>151</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>%1 means frame index</string>
+   </property>
+   <property name="text">
+    <string>File naming pattern:</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="fps">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>120</y>
+     <width>59</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>frames per second</string>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>900</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>100</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>frames per second</string>
+   </property>
+   <property name="text">
+    <string>FPS:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="imageFormat">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>120</y>
+     <width>85</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>100</y>
+     <width>181</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Image format:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>170</y>
+     <width>161</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Output directory:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="outputDir">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>190</y>
+     <width>211</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="chooseOutputDirectoryButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>97</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Select...</string>
    </property>
   </widget>
  </widget>

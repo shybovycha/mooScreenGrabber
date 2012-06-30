@@ -23,17 +23,20 @@ public:
     
 private:
     Ui::MainWidget *ui;
+
     QTimer *shootTimer;
+    QString outputPath;
 
     Display *dp;
 
-    int fileIndex;
+    int frameIndex;
 
     bool isKeyDown(Display *dp, int keysum);
 
 private slots:
-    void on_pushButton_clicked();
     void shoot();
+    void on_chooseOutputDirectoryButton_clicked();
+    void on_togglingButton_clicked();
 };
 
 #endif // MAINWIDGET_H

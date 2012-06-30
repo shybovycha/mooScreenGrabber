@@ -9,6 +9,7 @@
 #include <QVarLengthArray>
 #include <QThread>
 #include <QMutex>
+#include <QFileDialog>
 
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
