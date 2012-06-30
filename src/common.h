@@ -10,6 +10,8 @@
 #include <QThread>
 #include <QMutex>
 #include <QFileDialog>
+#include <QSystemTrayIcon>
+#include <QMessageBox>
 
 #include <X11/Xlib.h>
 #include <X11/keysym.h>

@@ -8,6 +8,7 @@
 #include <QPixmap>
 #include <QImage>
 #include <QPainter>
+#include <QSystemTrayIcon>
 
 namespace Ui {
 class MainWidget;
@@ -26,6 +27,7 @@ private:
 
     QTimer *shootTimer;
     QString outputPath;
+    QSystemTrayIcon *trayIcon;
 
     Display *dp;
 
@@ -37,6 +39,7 @@ private slots:
     void shoot();
     void on_chooseOutputDirectoryButton_clicked();
     void on_togglingButton_clicked();
+    void trayIcon_activated(QSystemTrayIcon::ActivationReason);
 };
 
 #endif // MAINWIDGET_H

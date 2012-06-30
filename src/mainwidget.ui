@@ -13,6 +13,17 @@
   <property name="windowTitle">
    <string>MainWidget</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icon64.png</normaloff>
+    <normalon>icon64.png</normalon>
+    <disabledoff>icon64.png</disabledoff>
+    <disabledon>icon64.png</disabledon>
+    <activeoff>icon64.png</activeoff>
+    <activeon>icon64.png</activeon>
+    <selectedoff>icon64.png</selectedoff>
+    <selectedon>icon64.png</selectedon>icon64.png</iconset>
+  </property>
   <widget class="QPushButton" name="togglingButton">
    <property name="geometry">
     <rect>

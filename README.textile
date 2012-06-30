@@ -57,3 +57,14 @@ From some commit, a few configuration options became available. They are:
 * *FPS* - that value sets how many screenshots shall be taken per one second. The higher this value - the more smooth resulting video will be and the more memory shall be eaten out. 
 * *Output directory* - that is the absolute path to the directory, where all the screenshots will be saved.
 * *Image format* - this option sets the screenshot files' extension.
+
+h2. Tray icon is available!
+
+From some other commit, a tray control is available. That is, when you start the application, you should see a small icon at your tray. If you do not see icon and you do use Ubuntu's Unity - please, run this command from the user you are running *mooScreenGrabber*:
+
+__$ gsettings set com.canonical.Unity.Panel systray-whitelist "['all']"__
+
+Tray icon gives you two ways you can control screencasting:
+
+* *right-clicking tray icon* shall display main window with some options
+* *left-clicking tray icon* shall start recording screen or stop it - icon displays what shall be done when you click it

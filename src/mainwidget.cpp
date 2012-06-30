@@ -20,6 +20,14 @@ MainWidget::MainWidget(QWidget *parent) :
 
     shootTimer = new QTimer();
     connect(shootTimer, SIGNAL(timeout()), this, SLOT(shoot()));
+
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setIcon(QIcon("record-2.png"));
+    trayIcon->setToolTip("mooScreenGrabber");
+
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIcon_activated(QSystemTrayIcon::ActivationReason)));
+
+    trayIcon->show();
 }
 
 void MainWidget::shoot()
@@ -92,9 +100,34 @@ void MainWidget::on_togglingButton_clicked()
     {
         shootTimer->stop();
         ui->togglingButton->setText(QString("start shooting"));
+        trayIcon->setIcon(QIcon("record-2.png"));
     } else
     {
         shootTimer->start();
         ui->togglingButton->setText(QString("stop shooting"));
+        trayIcon->setIcon(QIcon("stop-1.png"));
+    }
+}
+
+void MainWidget::trayIcon_activated(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason)
+    {
+        case QSystemTrayIcon::Trigger:
+            this->on_togglingButton_clicked();
+        break;
+
+        case QSystemTrayIcon::Context:
+            if (this->isVisible())
+            {
+                this->hide();
+            } else
+            {
+                this->show();
+            }
+        break;
+
+        default:
+        break;
     }
 }
