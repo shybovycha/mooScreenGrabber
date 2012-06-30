@@ -37,12 +37,23 @@ And, you know, i think it is the way it should go. Because /me, personally, does
 
 h1. Okay, i've got the binaries. What's next?
 
-Run the binary, hit the *"start shooting"* button and enjoy. Well, up until your PC frezes =P Then you should kill the software somehow. I did not find a way to prevent that memory leak for now.
+h2. General layout
 
-Now, when you've finished recording your screen, you've got a lot of __screen_***.png__ files at your working directory. You can convert them to a one video file using *ffmpeg* (or *avconv* - ffmpeg's developers say *ffmpeg is deprecated*):
+Run the binary, choose options you would like and hit the *"start shooting"* button. Then perform some actions that you want to be shown at your screencast - enjoy using software. Well, up until your PC frezes =P Then you should kill the software somehow. I did not find a way to prevent that great memory leak for now. If your PC did not freeze - you are lucky! Hit the *"stop shooting"* button.
+
+Now, when you've finished recording your screen, you've got a lot of __<PATTERN>.png__ files at your working directory. You can convert them to a one video file using *ffmpeg* (or *avconv* - ffmpeg's developers say *ffmpeg is deprecated*):
 
 __$ avconv -r <FRAMERATE> -b <BITRATE> -i "%d.png" -vframes <IMAGE_COUNT> <OUTPUT_FILENAME>__
 
 For example, i used this:
 
 __$ avconv -r 1 -b 1800 -i "%d.png" -vframes 99 video.avi__
+
+h2. Options are available!
+
+From some commit, a few configuration options became available. They are:
+
+* *File naming pattern* - this field must contain *%1* string. That _%1_ shall be replaced with a number, forming a file name for each screenshot. E.g.: if pattern is *screen_%1*, screenshot files will be _screen_1.png_, _screen_2.png_ ... (if the image format selected is *png*).
+* *FPS* - that value sets how many screenshots shall be taken per one second. The higher this value - the more smooth resulting video will be and the more memory shall be eaten out. 
+* *Output directory* - that is the absolute path to the directory, where all the screenshots will be saved.
+* *Image format* - this option sets the screenshot files' extension.
