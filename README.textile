@@ -1,0 +1,18 @@
+h1. Meet mooScreenGrabber!
+
+*mooScreenGrabber* is supposed to create screen casts on Unix (ones supporting X11) systems. What made me to create one? Videos from "RailsCasts":http://railscasts.com/ contain those pretty keyboard shortcut notifications. And that is the idea - to make possible to show shortcut pressed while grabbing screen.
+
+h1. What's the current state?
+
+The project has only a few commits now. And most of them are initial. So, do not account to observe a cool ready-for-wide-use software, please.
+
+For now we have:
+
+* capturing screenshots each N milliseconds (N = 10)
+* saving screenshots as *PNG* images to the CWD(Current Working Directory)
+* capturing a lot of keyboard shortcuts (ones with *Alt*, *Control* and *Shift*; *Alt + Tab* included) and pasting them to the screenshots
+* a few image set examples
+
+h1. Any support needed?
+
+Yes, please. If you do know a way to _create video from a set of images_ or how to _capture video and audio in X11_ or _how to decrease lagging_ or _you do want to test this software_ - let me know, please.
