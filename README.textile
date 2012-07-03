@@ -51,7 +51,7 @@ Run the binary, choose options you would like and hit the *"start shooting"* but
 
 Now, when you've finished recording your screen, you've got a lot of __<PATTERN>.png__ files at your working directory. You can convert them to a one video file using *ffmpeg* (or *avconv* - ffmpeg's developers say *ffmpeg is deprecated*):
 
-__$ avconv -r <FRAMERATE> -b <BITRATE> -i "%d.png" -vframes <IMAGE_COUNT> <OUTPUT_FILENAME>__
+__$ avconv -r &lt;**FRAMERATE**&gt; -b &lt;**BITRATE**&gt; -i "%d.png" -vframes &lt;**IMAGE_COUNT**&gt; &lt;**OUTPUT_FILENAME**&gt;__
 
 For example, i used this:
 
